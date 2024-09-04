@@ -1,72 +1,35 @@
-import axios from "axios"
+import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
 function App(){
-
-  const [render,setRender] =useState([])
-  const [questionState , setQuestionState] = useState(0)
+  const [render,setRender] = useState([])
 
   try {
     useEffect(()=>{
       axios('https://the-trivia-api.com/v2/questions')
-    .then((res)=>{
-      console.log(res.data)
-      setRender(res.data)
-    })
-    .catch((err)=>{
-      console.log(err);  
-    })
+      .then((res)=>{
+        console.log(res.data);
+        setRender(res.data)
+      })
+      .catch((err)=>{
+        console.log(err);
+        
+      })
     },[])
   } catch (error) {
     console.log(error);
     
   }
-
-  function NextQuestion(){
-    setQuestionState(questionState + 1)
-    if(questionState === render.length -1){
-      alert('complete')
-      setQuestionState(0)
-    }
-
-  }
-
-
-    //shuffle array
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-  
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      
-      return array;
-    }
-
-
   return (
     <>
     <h1>Quiz App</h1>
     {
-      render.length > 0 ? <div>
-        <h1>Q{questionState + 1}:{render[questionState].question.text}</h1>
-
-        <ul>
-          {shuffleArray([...render[questionState].incorrectAnswers , render[questionState].correctAnswer]).map((item,index)=>{
-            return <div key={index}>
-              <li>{item}</li>
-            </div>
-          })}
-        </ul>
-        <button onClick={NextQuestion}>Next</button>
-
-      </div>: <h1>Loading...</h1>
+      <h1>Q:1{render.question.text}</h1>
     }
-    
     </>
   )
 }
-export default App
+
+export default App;
+

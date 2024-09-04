@@ -1,23 +1,19 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 
 function App(){
   const [render,setRender] = useState([])
   const [questionState,setQuestionState] = useState(0)
-  const [selectAnswer,setSelectAnswer] = useState('')
-  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+  const checkedInput = useRef([])
 
+ //Api Handling
   try {
     useEffect(()=>{
       axios('https://the-trivia-api.com/v2/questions')
       .then((res)=>{
-        // console.log(res.data);
-        const fetchData = res.data
-        setRender(fetchData);
-        if(fetchData.length > 0){
-          
-        }
+        console.log(res.data)
+        setRender(res.data)
       })
       .catch((err)=>{
         console.log(err);
@@ -26,9 +22,9 @@ function App(){
     },[])
   } catch (error) {
     console.log(error);
-    
   }
 
+  // shuffle Array 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -39,30 +35,45 @@ function App(){
     return array;
   }
 
+//  Next Question 
   function NextQuetsion(){
+
+    const checkedButton = checkedInput.current.find(input => input.checked);
+    if (checkedButton) {
+      const selectedValue = checkedButton.value;
+      console.log("Selected answer:", selectedValue);
+
+    }
     setQuestionState(questionState + 1)
-    if(questionState === render.length - 1){
+    if(questionState >= render.length - 1){
       setQuestionState(0)
       alert('Complete Quiz')
     }
 
-    setSelectAnswer("");
+    checkedInput.current.forEach(input=>{
+      if(input){
+        input.checked = false;
+        input.value = "";
+      }
+    })
   }
+  
+  //return JSX
   return (
     <>
     <h1>Quiz App</h1>
     {
       render.length > 0 ? <div>
         <h1>Q{questionState + 1} : {render[questionState].question.text}</h1>
-        <ul>
+        <ol>
           {shuffleArray([...render[questionState].incorrectAnswers , render[questionState].correctAnswer]).map((item,index)=>{
             return <div key={index}>
-              <li><input id={`${index}`} name="quiz" type="radio" value={item} checked ={selectAnswer === item} onChange={(e)=>setSelectAnswer(e.target.value)} />
-              <label htmlFor={`${index}`}>{item}</label>
+              <li><input id={item} name="quiz" type="radio" value={item} ref={e=>(checkedInput.current[index] = e)} />
+              <label htmlFor={item}>{item}</label>
               </li>
             </div>
           })}
-        </ul>
+        </ol>
         <button onClick={NextQuetsion}>Next</button>
 
       </div>:<h1>Loading...</h1>

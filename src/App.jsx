@@ -6,6 +6,7 @@ function App(){
   const [render,setRender] = useState([])
   const [questionState,setQuestionState] = useState(0)
   const checkedInput = useRef([])
+  const [score,setScore] = useState(0)
 
  //Api Handling
   try {
@@ -43,12 +44,22 @@ function App(){
       const selectedValue = checkedButton.value;
       console.log("Selected answer:", selectedValue);
 
+      // store selectAnswer
+      if(selectedValue === render[questionState].correctAnswer){
+        setScore(score + 1)
+        console.log(score);
+      }
+      
+      
+      
     }
     setQuestionState(questionState + 1)
     if(questionState >= render.length - 1){
       setQuestionState(0)
-      alert('Complete Quiz')
+      alert(`Complete Quiz. Your score is ${score}/${render.length}`)
+      return
     }
+
 
     checkedInput.current.forEach(input=>{
       if(input){
@@ -57,6 +68,8 @@ function App(){
       }
     })
   }
+
+  
   
   //return JSX
   return (
@@ -75,7 +88,7 @@ function App(){
           })}
         </ol>
         <button onClick={NextQuetsion}>Next</button>
-
+        <h1>{`Total Score :${score}/${render.length}`}</h1>
       </div>:<h1>Loading...</h1>
     }
     </>
@@ -85,94 +98,5 @@ function App(){
 export default App;
 
 
-
-
-// import axios from "axios";
-// import { useState, useEffect } from "react";
-
-// function App() {
-//   const [questions, setQuestions] = useState([]);
-//   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [selectedAnswer, setSelectedAnswer] = useState('');
-//   const [shuffledAnswers, setShuffledAnswers] = useState([]);
-
-//   useEffect(() => {
-//     axios('https://the-trivia-api.com/v2/questions')
-//       .then((res) => {
-//         const fetchedQuestions = res.data;
-//         setQuestions(fetchedQuestions);
-//         if (fetchedQuestions.length > 0) {
-//           shuffleAndSetAnswers(fetchedQuestions[0]);
-//         }
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   }, []);
-
-//   useEffect(() => {
-//     if (questions.length > 0) {
-//       shuffleAndSetAnswers(questions[currentQuestionIndex]);
-//     }
-//   }, [currentQuestionIndex, questions]);
-
-//   function shuffleAndSetAnswers(question) {
-//     const answers = [...question.incorrectAnswers, question.correctAnswer];
-//     setShuffledAnswers(shuffleArray(answers));
-//   }
-
-//   function shuffleArray(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//       const j = Math.floor(Math.random() * (i + 1));
-//       [array[i], array[j]] = [array[j], array[i]];
-//     }
-//     return array;
-//   }
-
-//   function handleNextQuestion() {
-//     setCurrentQuestionIndex((prevIndex) => {
-//       const nextIndex = prevIndex + 1;
-//       if (nextIndex >= questions.length) {
-//         alert('Complete Quiz');
-//         return 0;
-//       }
-//       return nextIndex;
-//     });
-//     setSelectedAnswer('');
-//   }
-
-//   return (
-//     <>
-//       <h1>Quiz App</h1>
-//       {questions.length > 0 ? (
-//         <div>
-//           <h1>Q{currentQuestionIndex + 1}: {questions[currentQuestionIndex].question.text}</h1>
-//           <ul>
-//             {shuffledAnswers.map((item, index) => (
-//               <div key={index}>
-//                 <li>
-//                   <input
-//                     id={`answer-${index}`}
-//                     name="quiz"
-//                     type="radio"
-//                     value={item}
-//                     checked={selectedAnswer === item}
-//                     onChange={(e) => setSelectedAnswer(e.target.value)}
-//                   />
-//                   <label htmlFor={`answer-${index}`}>{item}</label>
-//                 </li>
-//               </div>
-//             ))}
-//           </ul>
-//           <button onClick={handleNextQuestion}>Next</button>
-//         </div>
-//       ) : (
-//         <h1>Loading...</h1>
-//       )}
-//     </>
-//   );
-// }
-
-// export default App;
 
 

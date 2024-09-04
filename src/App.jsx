@@ -5,8 +5,8 @@ import { useEffect } from "react";
 function App(){
   const [render,setRender] = useState([])
   const [questionState,setQuestionState] = useState(0)
-  const checkedInput = useRef([])
   const [score,setScore] = useState(0)
+  const checkedInput = useRef([])
 
  //Api Handling
   try {

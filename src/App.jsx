@@ -6,6 +6,7 @@ import { useEffect } from "react";
 function App(){
 
   const [render,setRender] =useState([])
+  const [questionState , setQuestionState] = useState(0)
 
   try {
     useEffect(()=>{
@@ -23,7 +24,24 @@ function App(){
     
   }
   return (
-    <h1>hello</h1>
+    <>
+    <h1>Quiz App</h1>
+    {
+      render.length > 0 ? <div>
+        <h1>Q{questionState + 1}:{render[questionState].question.text}</h1>
+
+        <ul>
+          {[...render[questionState].incorrectAnswers , render[questionState].correctAnswer].map((item,index)=>{
+            return <div key={index}>
+              <li>{item}</li>
+            </div>
+          })}
+        </ul>
+
+      </div>: <h1>Loading...</h1>
+    }
+    
+    </>
   )
 }
 export default App

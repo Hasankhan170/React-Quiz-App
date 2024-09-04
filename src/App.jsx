@@ -23,6 +23,17 @@ function App(){
     console.log(error);
     
   }
+
+  function NextQuestion(){
+    setQuestionState(questionState + 1)
+    if(questionState === render.length -1){
+      alert('complete')
+      setQuestionState(0)
+    }
+
+  }
+
+
   return (
     <>
     <h1>Quiz App</h1>
@@ -37,6 +48,7 @@ function App(){
             </div>
           })}
         </ul>
+        <button onClick={NextQuestion}>Next</button>
 
       </div>: <h1>Loading...</h1>
     }

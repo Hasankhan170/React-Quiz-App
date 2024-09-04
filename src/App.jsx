@@ -40,6 +40,12 @@ function App(){
   function NextQuetsion(){
 
     const checkedButton = checkedInput.current.find(input => input.checked);
+
+    if(!checkedButton){
+      alert('Please select an option');
+      return; 
+    }
+
     if (checkedButton) {
       const selectedValue = checkedButton.value;
       console.log("Selected answer:", selectedValue);
@@ -55,16 +61,17 @@ function App(){
     }
     setQuestionState(questionState + 1)
     if(questionState >= render.length - 1){
-      setQuestionState(0)
       alert(`Complete Quiz. Your score is ${score}/${render.length}`)
-      return
+      setQuestionState(0)
+      setScore(0);
+      return 0;
     }
+
 
 
     checkedInput.current.forEach(input=>{
       if(input){
         input.checked = false;
-        input.value = "";
       }
     })
   }

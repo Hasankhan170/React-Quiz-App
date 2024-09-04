@@ -12,6 +12,7 @@ function App(){
       axios('https://the-trivia-api.com/v2/questions')
     .then((res)=>{
       console.log(res.data)
+      setRender(res.data)
     })
     .catch((err)=>{
       console.log(err);  

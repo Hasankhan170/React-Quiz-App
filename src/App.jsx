@@ -34,6 +34,19 @@ function App(){
   }
 
 
+    //shuffle array
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+  
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      
+      return array;
+    }
+
+
   return (
     <>
     <h1>Quiz App</h1>
@@ -42,7 +55,7 @@ function App(){
         <h1>Q{questionState + 1}:{render[questionState].question.text}</h1>
 
         <ul>
-          {[...render[questionState].incorrectAnswers , render[questionState].correctAnswer].map((item,index)=>{
+          {shuffleArray([...render[questionState].incorrectAnswers , render[questionState].correctAnswer]).map((item,index)=>{
             return <div key={index}>
               <li>{item}</li>
             </div>

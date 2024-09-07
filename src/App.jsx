@@ -6,6 +6,7 @@ function App(){
   const [render,setRender] = useState([])
   const [questionState,setQuestionState] = useState(0)
   const [score,setScore] = useState(0)
+  const [WrongScore,setWrongScore] = useState(0)
   const checkedInput = useRef([])
 
  //Api Handling
@@ -14,7 +15,7 @@ function App(){
       axios('https://the-trivia-api.com/v2/questions')
       .then((res)=>{
         console.log(res.data)
-        setRender(res.data)
+        setRender(shuffleArray(res.data))
       })
       .catch((err)=>{
         console.log(err);
@@ -38,7 +39,9 @@ function App(){
 
 //  Next Question 
   function NextQuetsion(){
-
+    
+    console.log(render.length);
+    
     const checkedButton = checkedInput.current.find(input => input.checked);
 
     if(!checkedButton){
@@ -46,7 +49,7 @@ function App(){
       return; 
     }
 
-    if (checkedButton) {
+    
       const selectedValue = checkedButton.value;
       console.log("Selected answer:", selectedValue);
 
@@ -54,17 +57,22 @@ function App(){
       if(selectedValue === render[questionState].correctAnswer){
         setScore(score + 1)
         console.log(score);
+      }else{
+        setWrongScore(WrongScore + 1)
+        console.log(WrongScore);
       }
       
       
-      
-    }
-    setQuestionState(questionState + 1)
-    if(questionState >= render.length - 1){
-      alert(`Complete Quiz. Your score is ${score}/${render.length}`)
-      setQuestionState(0)
-      setScore(0);
-      return 0;
+  
+    const next = questionState + 1
+    if(next >= render.length - 1){
+      alert(`Complete Quiz. Your score is ${score}/9`)
+      // setQuestionState(0)
+      // setScore(0);
+      // setWrongScore(0);
+      setRender(shuffleArray(render))
+    }else{
+      setQuestionState(next);
     }
 
 
@@ -95,7 +103,9 @@ function App(){
           })}
         </ol>
         <button onClick={NextQuetsion}>Next</button>
-        <h1>{`Total Score :${score}/${render.length}`}</h1>
+        <h3>{`Correct Answer :${score}`}</h3>
+        <h3>{`Wrong Answer :${WrongScore}`}</h3>
+        <h1>{`Total : 9`}</h1>
       </div>:<h1>Loading...</h1>
     }
     </>

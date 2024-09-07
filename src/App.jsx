@@ -7,6 +7,7 @@ function App(){
   const [questionState,setQuestionState] = useState(0)
   const [score,setScore] = useState(0)
   const [WrongScore,setWrongScore] = useState(0)
+  const [quizComplete, setQuizComplete] = useState(false)
   const checkedInput = useRef([])
 
  //Api Handling
@@ -66,6 +67,7 @@ function App(){
   
     const next = questionState + 1
     if(next >= render.length - 1){
+      setQuizComplete(true);
       alert(`Complete Quiz. Your score is ${score}/9`)
       // setQuestionState(0)
       // setScore(0);
@@ -90,26 +92,50 @@ function App(){
   return (
     <>
     <h1>Quiz App</h1>
-    {
-      render.length > 0 ? <div>
-        <h1>Q{questionState + 1} : {render[questionState].question.text}</h1>
-        <ol>
-          {shuffleArray([...render[questionState].incorrectAnswers , render[questionState].correctAnswer]).map((item,index)=>{
-            return <div key={index}>
-              <li><input id={item} name="quiz" type="radio" value={item} ref={e=>(checkedInput.current[index] = e)} />
-              <label htmlFor={item}>{item}</label>
-              </li>
+    {render.length > 0 ? (
+        <div>
+          {!quizComplete ? (
+            <>
+              <h1>Q{questionState + 1} : {render[questionState].question.text}</h1>
+              <ol>
+                {shuffleArray([...render[questionState].incorrectAnswers, render[questionState].correctAnswer])
+                  .map((item, index) => (
+                    <div key={index}>
+                      <li>
+                        <input
+                          id={item}
+                          name="quiz"
+                          type="radio"
+                          value={item}
+                          ref={e => checkedInput.current[index] = e}
+                        />
+                        <label htmlFor={item}>{item}</label>
+                      </li>
+                    </div>
+                  ))}
+              </ol>
+              <button onClick={NextQuetsion}>Next</button>
+              
+            </>
+          ) : (
+            <div>
+              <h1>Quiz Complete</h1>
+              <h3>{`Final Score: ${score}/9`}</h3>
+              <div>
+                <h3>{`Correct Answers: ${score}`}</h3>
+                <h3>{`Wrong Answers: ${WrongScore}`}</h3>
+                <h1>Total: 9</h1>
+              </div>
             </div>
-          })}
-        </ol>
-        <button onClick={NextQuetsion}>Next</button>
-        <h3>{`Correct Answer :${score}`}</h3>
-        <h3>{`Wrong Answer :${WrongScore}`}</h3>
-        <h1>{`Total : 9`}</h1>
-      </div>:<h1>Loading...</h1>
-    }
+          )}
+        </div>
+      ) : (
+         <>
+                 <h1>Loading...</h1>
+         </>
+      )}
     </>
-  )
+  );
 }
 
 export default App;

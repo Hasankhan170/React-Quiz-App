@@ -125,6 +125,7 @@ function App(){
                 <h3>{`Correct Answers: ${score}`}</h3>
                 <h3>{`Wrong Answers: ${WrongScore}`}</h3>
                 <h1>Total: 9</h1>
+                <button onClick={() => window.location.reload()}>Again</button>
               </div>
             </div>
           )}

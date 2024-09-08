@@ -91,18 +91,21 @@ function App(){
   //return JSX
   return (
     <>
-    <h1>Quiz App</h1>
     {render.length > 0 ? (
         <div>
           {!quizComplete ? (
             <>
-              <h1>Q{questionState + 1} : {render[questionState].question.text}</h1>
+              <div className="container">
+              <h1 className="quiz">Quiz App</h1>
+              <h2>Q{questionState + 1} : {render[questionState].question.text}</h2>
+              <hr />
+              <div className="main">
               <ol>
                 {shuffleArray([...render[questionState].incorrectAnswers, render[questionState].correctAnswer])
                   .map((item, index) => (
                     <div key={index}>
-                      <li>
-                        <input
+                      <li className="li">
+                        <input 
                           id={item}
                           name="quiz"
                           type="radio"
@@ -114,8 +117,9 @@ function App(){
                     </div>
                   ))}
               </ol>
+              </div>
               <button onClick={NextQuetsion}>Next</button>
-              
+              </div>
             </>
           ) : (
             <div>
@@ -132,7 +136,7 @@ function App(){
         </div>
       ) : (
          <>
-                 <h1>Loading...</h1>
+                 <h1 className="loading">Loading...</h1>
          </>
       )}
     </>

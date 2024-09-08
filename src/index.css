@@ -18,20 +18,78 @@
 }
 
 .main{
-  background-color: aqua;
-  padding: 10px 0px;
+  padding: 10px 0px 0px 0px;
 }
+ol{
+    padding: 0;
+  }
 
 .li{
     list-style-type: none;
     font-size: 17px;
     margin-bottom: 10px;
     cursor: pointer;
-    padding: 10px 0px;
+    padding: 10px 5px;
     border-radius: 5px;
     color: black;
     background-color: white;
     width: 100%;
     font-weight: bold;
+}
 
+  
+  .li:hover {
+    background-color: lightgray;
+  }
+  
+.btn{
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: rgb(121, 121, 255);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: rgb(176, 176, 252);
+}
+
+@media (max-width: 500px) {
+   .container {
+    width: 100%;
+   }
+}
+
+.quiz-complete {
+    text-align: center;
+    border: 2px solid black;
+    width: 400px; /* Width of the circle */
+    height: 400px; /* Height should be equal to width for a circle */
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 50%;
+    box-sizing: border-box; /* Ensure padding is included in width and height */
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-2{
+    background-color: rgb(121, 121, 255);
+    padding: 10px 25px;
+    color: white;
+    border: none;
+}
+@media (max-width: 440px) {
+    .quiz-complete {
+    width: 360px;
+    height: 360px;
+    font-size: 16px;
+   }
 }

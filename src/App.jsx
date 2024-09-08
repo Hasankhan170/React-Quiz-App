@@ -103,8 +103,7 @@ function App(){
               <ol>
                 {shuffleArray([...render[questionState].incorrectAnswers, render[questionState].correctAnswer])
                   .map((item, index) => (
-                    <div key={index}>
-                      <li className="li">
+                      <li key={index} className="li">
                         <input 
                           id={item}
                           name="quiz"
@@ -112,24 +111,23 @@ function App(){
                           value={item}
                           ref={e => checkedInput.current[index] = e}
                         />
-                        <label htmlFor={item}>{item}</label>
+                        <label className="li-label" htmlFor={item}>{item}</label>
                       </li>
-                    </div>
                   ))}
               </ol>
               </div>
-              <button onClick={NextQuetsion}>Next</button>
+              <button className="btn" onClick={NextQuetsion}>Next</button>
               </div>
             </>
           ) : (
-            <div>
+            <div className="quiz-complete">
               <h1>Quiz Complete</h1>
               <h3>{`Final Score: ${score}/9`}</h3>
               <div>
                 <h3>{`Correct Answers: ${score}`}</h3>
                 <h3>{`Wrong Answers: ${WrongScore}`}</h3>
                 <h1>Total: 9</h1>
-                <button onClick={() => window.location.reload()}>Again</button>
+                <button className="btn-2" onClick={() => window.location.reload()}>Again</button>
               </div>
             </div>
           )}
